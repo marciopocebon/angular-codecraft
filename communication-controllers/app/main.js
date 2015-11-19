@@ -6,13 +6,14 @@ app.controller('PersonDetailController', function($scope){
 
 app.controller('PersonListController', function($scope){
     
-    $scope.selectedIndex = null;
-    $scope.selectedPerson = null;
     $scope.search = "";
     $scope.order = "email";
+    $scope.selectedIndex = null;
+    $scope.selectedPerson = null;
 
     $scope.selectPerson = function(person, index) {
         $scope.selectedIndex = index;
+        $scope.selectedPerson = person;
     };
 
     $scope.sensetiveSearch = function(person) {
