@@ -13,24 +13,24 @@
         <div class="col-md-6">
             <div class="root">
                 <label>
-                    <input type="text" ng-model="name" />
+                    <input type="text" ng-model="data.name" />
                 </label>
-                <p>{{name}}</p>
+                <p>{{data.name}}</p>
                 
                 <div class="row">
                     <div>
                         <div class="parent" ng-controller="ParentController">
                             <label>
-                                <input type="text" ng-model="name" />
+                                <input type="text" ng-model="data.name" />
                             </label>
-                            <p>{{name}}</p>
+                            <p>{{data.name}}</p>
                 
                             <div class="child" ng-controller="ChildController">
                                 <label>
-                                    <input type="text" ng-model="name" />
+                                    <input type="text" ng-model="data.name" />
                                 </label>
                                 <button class="btn" ng-click="reset()">Reset</button>
-                                <p>{{name}}</p>
+                                <p>{{data.name}}</p>
                             </div>
                         <div>
                     </div>
