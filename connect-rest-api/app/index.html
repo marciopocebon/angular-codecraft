@@ -2,218 +2,225 @@
 <html lang="en"
       ng-app="codecraft">
 <head>
-	<title>Contacts</title>
-	<link href="../libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="main.css" rel="stylesheet">
-	<link rel="stylesheet" href="../libs/ladda/dist/ladda-themeless.min.css">
+    <title>Contacts</title>
+    <link href="../libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
+    <link rel="stylesheet" href="../libs/ladda/dist/ladda-themeless.min.css">
 </head>
 
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand"
-			   href="/">Contacts
-			</a>
-		</div>
-	</div>
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand"
+               href="/">Contacts
+            </a>
+        </div>
+    </div>
 </nav>
 
 <div class="container main-content">
 
-	<div class="row">
-		<div class="col-md-8"  ng-controller="PersonListController">
-			<div class="row">
-				<div class="col-md-12">
-					<form class="form-inline well well-sm">
-						<span class="glyphicon glyphicon-search"></span>
+    <div class="row">
+        <div class="col-md-8"  ng-controller="PersonListController">
+            <div class="row">
+                <div class="col-md-12">
+                    <form class="form-inline well well-sm">
+                        <span class="glyphicon glyphicon-search"></span>
 
-						<div class="form-group">
-							<input type="text"
-							       class="form-control"
-							       id="name"
-							       ng-model="search"
-							       placeholder="Search name..."
-									/>
-						</div>
+                        <div class="form-group">
+                            <input type="text"
+                                   class="form-control"
+                                   id="name"
+                                   ng-model="search"
+                                   placeholder="Search name..."
+                                    />
+                        </div>
 
-						<span class="glyphicon glyphicon-sort-by-attributes"></span>
+                        <span class="glyphicon glyphicon-sort-by-attributes"></span>
 
-						<div class="form-group">
-							<select class="form-control"
-							        ng-model="order">
-								<option value="name">Name (ASC)</option>
-								<option value="-name">Name (DEC)</option>
-								<option value="email">Email (ASC)</option>
-								<option value="-email">Email (DEC)</option>
-							</select>
-						</div>
+                        <div class="form-group">
+                            <select class="form-control"
+                                    ng-model="order">
+                                <option value="name">Name (ASC)</option>
+                                <option value="-name">Name (DEC)</option>
+                                <option value="email">Email (ASC)</option>
+                                <option value="-email">Email (DEC)</option>
+                            </select>
+                        </div>
 
-					</form>
+                    </form>
 
-					<table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
+                    <table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
 
-						<tr>
-							<th>#</th>
-							<th>Name
-								<span ng-click="order = 'name'"
-								      class="glyphicon glyphicon-menu-up"></span>
-								<span ng-click="order = '-name'"
-								      class="glyphicon glyphicon-menu-down"></span>
-							</th>
-							<th>Email
-								<span ng-click="order = 'email'"
-								      class="glyphicon glyphicon-menu-up"></span>
-								<span ng-click="order = '-email'"
-								      class="glyphicon glyphicon-menu-down"></span>
-							</th>
-							<th>Birthday</th>
-						</tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Name
+                                <span ng-click="order = 'name'"
+                                      class="glyphicon glyphicon-menu-up"></span>
+                                <span ng-click="order = '-name'"
+                                      class="glyphicon glyphicon-menu-down"></span>
+                            </th>
+                            <th>Email
+                                <span ng-click="order = 'email'"
+                                      class="glyphicon glyphicon-menu-up"></span>
+                                <span ng-click="order = '-email'"
+                                      class="glyphicon glyphicon-menu-down"></span>
+                            </th>
+                            <th>Birthday</th>
+                        </tr>
 
-						<tr ng-repeat="person in contacts.persons"
-						    ng-style="{
-							 'background-color': person.email == contacts.selectedPerson.email ? 'lightgray' : ''
-						}"
-						    ng-click="contacts.selectedPerson = person">
-							<td>{{ $index }}</td>
-							<td>{{ person.name }}</td>
-							<td>{{ person.email }}</td>
-							<td>{{ person.birthdate | date:"longDate" }}</td>
-						</tr>
-					</table>
+                        <tr ng-repeat="person in contacts.persons"
+                            ng-style="{
+                             'background-color': person.email == contacts.selectedPerson.email ? 'lightgray' : ''
+                        }"
+                            ng-click="contacts.selectedPerson = person">
+                            <td>{{ $index }}</td>
+                            <td>{{ person.name }}</td>
+                            <td>{{ person.email }}</td>
+                            <td>{{ person.birthdate | date:"longDate" }}</td>
+                        </tr>
+                    </table>
 
-					<div ng-if="contacts.persons.length == 0 && !contacts.isLoading">
-						<div class="alert alert-info">
-							<p class="text-center">No results found for search term '{{ search }}'</p>
-						</div>
-					</div>
-					
-					<div class="spinner" ng-if="contacts.isLoading">
-						<span us-spinner="{radius:8, width:5, length: 3, lines: 9}"></span>
-						<p>Loading...</p>
-					</div>
+                    <div ng-if="contacts.persons.length == 0 && !contacts.isLoading">
+                        <div class="alert alert-info">
+                            <p class="text-center">No results found for search term '{{ search }}'</p>
+                        </div>
+                    </div>
+                    
+                    <div class="spinner" ng-if="contacts.isLoading">
+                        <span us-spinner="{radius:8, width:5, length: 3, lines: 9}"></span>
+                        <p>Loading...</p>
+                    </div>
 
-				</div>
-			</div>
+                </div>
+            </div>
 
-		</div>
-		<div class="col-md-4"  ng-controller="PersonDetailController">
+        </div>
+        <div class="col-md-4"  ng-controller="PersonDetailController">
 
-			<div class="panel panel-default">
-				<div class="panel-heading">Details</div>
-				<div class="panel-body">
-					<form class="form-horizontal" ng-submit="save()" novalidate>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Name</label>
-							<div class="col-sm-10">
-								<input type="text"
-								       class="form-control"
-								       name="name"
-								       ng-model="contacts.selectedPerson.name"
-								       required />
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Email</label>
-							<div class="col-sm-10">
-								<input type="email"
-								       name="email"
-								       class="form-control"
-								       ng-model="contacts.selectedPerson.email"
-								       required />
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Photo</label>
-							<div class="col-sm-10">
-								<input type="text"
-								       class="form-control"
-								       name="photo"
-								       ng-model="contacts.selectedPerson.photo"
-										/>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Sex</label>
-							<div class="col-sm-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">Details
+                    
+                    <button class="btn btn-danger btn-sm pull-right"
+                            ladda="contacts.isDeleting"
+                            ng-click="remove()" >Delete
+                    </button >
+                    <div class="clearfix" ></div >
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" ng-submit="save()" novalidate>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       class="form-control"
+                                       name="name"
+                                       ng-model="contacts.selectedPerson.name"
+                                       required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email</label>
+                            <div class="col-sm-10">
+                                <input type="email"
+                                       name="email"
+                                       class="form-control"
+                                       ng-model="contacts.selectedPerson.email"
+                                       required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Photo</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       class="form-control"
+                                       name="photo"
+                                       ng-model="contacts.selectedPerson.photo"
+                                        />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Sex</label>
+                            <div class="col-sm-10">
 
-								<select name="sex"
-								        class="form-control"
-								        ng-model="contacts.selectedPerson.sex"
-								        id="">
-									<option value="M">Male</option>
-									<option value="F">Female</option>
-								</select>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Birthday</label>
-							<div class="col-sm-10">
-								<input type="text"
-								       name="bday"
-								       class="form-control"
-								       ng-model="contacts.selectedPerson.birthdate "
-								       bs-datepicker
-										/>
-							</div>
+                                <select name="sex"
+                                        class="form-control"
+                                        ng-model="contacts.selectedPerson.sex"
+                                        id="">
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Birthday</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       name="bday"
+                                       class="form-control"
+                                       ng-model="contacts.selectedPerson.birthdate "
+                                       bs-datepicker
+                                        />
+                            </div>
 
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Phone</label>
-							<div class="col-sm-10">
-								<input type="tel"
-								       name="phone"
-								       class="form-control"
-								       ng-model="contacts.selectedPerson.phonenumber"
-										/>
-							</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Phone</label>
+                            <div class="col-sm-10">
+                                <input type="tel"
+                                       name="phone"
+                                       class="form-control"
+                                       ng-model="contacts.selectedPerson.phonenumber"
+                                        />
+                            </div>
 
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Address</label>
-							<div class="col-sm-10">
-								<input type="text"
-								       name="address"
-								       class="form-control"
-								       ng-model="contacts.selectedPerson.address"
-										/>
-							</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Address</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       name="address"
+                                       class="form-control"
+                                       ng-model="contacts.selectedPerson.address"
+                                        />
+                            </div>
 
-						</div>
+                        </div>
 
-						<div class="form-group">
-							<label class="col-sm-2 control-label">City</label>
-							<div class="col-sm-10">
-								<input type="text"
-								       name="city"
-								       class="form-control"
-								       ng-model="contacts.selectedPerson.city"
-										/>
-							</div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">City</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       name="city"
+                                       class="form-control"
+                                       ng-model="contacts.selectedPerson.city"
+                                        />
+                            </div>
 
-						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label">Country</label>
-							<div class="col-sm-10">
-								<input type="text"
-								       name="country"
-								       class="form-control"
-								       ng-model="contacts.selectedPerson.country"
-										/>
-							</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Country</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       name="country"
+                                       class="form-control"
+                                       ng-model="contacts.selectedPerson.country"
+                                        />
+                            </div>
 
-						</div>
-						<div class="buttons">
-							<button class="btn btn-primary btn-block"
-							        ladda="contacts.isSaving"
-							        type="submit">Save
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+                        </div>
+                        <div class="buttons">
+                            <button class="btn btn-primary btn-block"
+                                    ladda="contacts.isSaving"
+                                    type="submit">Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
