@@ -91,6 +91,7 @@ app.service('ContactService', function (Contact, $q, toaster) {
         'isLoading': false,
         'isSaving': false,
         'selectedPerson': null,
+        'ordering': 'email',
         'persons': [],
         'doSearch': function (search) {
             self.hasMore = true;
