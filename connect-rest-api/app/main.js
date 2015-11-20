@@ -1,5 +1,6 @@
 var app = angular.module('codecraft', [
-	'ngResource'	
+	'ngResource',
+	'infinite-scroll'
 ]);
 
 app.config(function($httpProvider, $resourceProvider) {
@@ -20,6 +21,10 @@ app.controller('PersonListController', function ($scope, ContactService) {
 	$scope.search = "";
 	$scope.order = "email";
 	$scope.contacts = ContactService;
+
+	$scope.loadMore = function () {
+		$scope.contacts.loadMore();
+	};
 
 	$scope.sensitiveSearch = function (person) {
 		if ($scope.search) {
@@ -43,12 +48,31 @@ app.service('ContactService', function (Contact) {
 		'selectedPerson': null,
 		'persons': [],
 		'loadContacts': function () {
-			Contact.get(function (data) {
-				console.log(data);
-				angular.forEach(data.results, function(person) {
-					self.persons.push(new Contact(person));
-				})
-			});
+			if (self.hasMore && !self.isLoading) {
+				self.isLoading = true;
+
+				var params = {
+					page: self.page
+				};
+
+				Contact.get(params, function (data) {
+					angular.forEach(data.results, function(person) {
+						self.persons.push(new Contact(person));
+					})
+
+					if (!data.next) {
+						self.hasMore = false;
+					}
+
+					self.isLoading = false;
+				});
+			}
+		},
+		'loadMore': function () {
+			if (self.hasMore && !self.isLoading) {
+				self.page += 1;
+				self.loadContacts();
+			}
 		}
 	};
 
