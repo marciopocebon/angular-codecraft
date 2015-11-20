@@ -3,20 +3,26 @@ var app = angular.module('codecraft', [
     'infinite-scroll',
     'angularSpinner',
     'jcs-autoValidate',
-    'angular-ladda'
+    'angular-ladda',
+    'mgcrea.ngStrap',
+    'toaster',
+    'ngAnimate'
 ]);
 
-app.config(function($httpProvider, $resourceProvider, laddaProvider) {
+app.config(function($httpProvider, $resourceProvider, laddaProvider, $datepickerProvider) {
     $httpProvider.defaults.headers.common['Authorization'] = 'Token 7a37c6d96f31d21ce50d64d37f16cd5cdb9c160c';
     $resourceProvider.defaults.stripTrailingSlashes = false;
     laddaProvider.setOption({
         style: 'expand-right'
     });
+    angular.extend($datepickerProvider.defaults, {
+        dateFormat: 'dd/M/yyyy',
+        autoclose: true
+    });
 });
 
 app.factory('Contact', function($resource) {
-    return $resource('http://codecraftpro.com/api/samples/v1/contact/:id/', {id:'@id'}, 
-    {
+    return $resource('http://codecraftpro.com/api/samples/v1/contact/:id/', {id:'@id'}, {
         update: {
             method: 'PUT'
         }
@@ -35,7 +41,7 @@ app.controller('PersonDetailController', function ($scope, ContactService) {
     }
 });
 
-app.controller('PersonListController', function ($scope, ContactService) {
+app.controller('PersonListController', function ($scope, $modal, ContactService) {
 
     $scope.search = "";
     $scope.order = "email";
@@ -44,6 +50,22 @@ app.controller('PersonListController', function ($scope, ContactService) {
     $scope.loadMore = function () {
         $scope.contacts.loadMore();
     };
+
+    $scope.showCreateModal = function () {
+        $scope.contacts.selectedPerson = {};
+        $scope.createModal = $modal({
+            scope: $scope,
+            template: 'templates/modal.create.tpl.html',
+            show: true
+        });
+    };
+
+    $scope.createContact = function () {
+        $scope.contacts.createContact($scope.contacts.selectedPerson)
+            .then(function(){
+                $scope.createModal.hide();
+            });
+    }
 
     $scope.$watch('search', function (newVal, oldVal) {
         if (angular.isDefined(newVal)){
@@ -58,7 +80,7 @@ app.controller('PersonListController', function ($scope, ContactService) {
     });
 });
 
-app.service('ContactService', function (Contact) {
+app.service('ContactService', function (Contact, $q, toaster) {
 
     var self =  {
         'addPerson': function (person) {
@@ -117,6 +139,7 @@ app.service('ContactService', function (Contact) {
             self.isSaving = true
             person.$update().then(function() {
                 self.isSaving = false;
+                toaster.pop('success', 'Updated ' + person.name);
             });
         },
         'removeContact': function (person) {
@@ -126,7 +149,23 @@ app.service('ContactService', function (Contact) {
                 var index = self.persons.indexOf(person);
                 self.persons.splice(index,1);
                 self.selectedPerson = null;
+                toaster.pop('success', 'Deleted ' + person.name);
             });
+        },
+        'createContact': function (person) {
+            d = $q.defer();
+            self.isSaving = true
+            Contact.save(person).$promise.then(function() {
+                self.isSaving = false;
+                self.hasMore = true;
+                self.selectedPerson = null;
+                self.persons = [];
+                self.loadContacts();
+                toaster.pop('success', 'Created ' + person.name);
+                d.resolve();
+            });
+
+            return d.promise;
         }
     };
 
