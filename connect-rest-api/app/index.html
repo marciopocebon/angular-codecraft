@@ -93,7 +93,7 @@
                         }"
                             ng-click="contacts.selectedPerson = person">
                             <td>
-                                <img class="img-circle profile-photo" ng-src="{{ person.photo }}" alt="">
+                                <img class="img-circle profile-photo" ng-src="{{ person.photo | defaultImage:'http://api.adorable.io/avatars/40/r.png'}}" alt="">
                             </td>
                             <td>{{ person.name }}</td>
                             <td>{{ person.email }}</td>
