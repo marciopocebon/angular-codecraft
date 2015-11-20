@@ -2,11 +2,11 @@ var app = angular.module('codecraft', [
     'ngResource',
     'infinite-scroll',
     'angularSpinner',
-    'jsc-autoValidate',
+    'jcs-autoValidate',
     'angular-ladda'
 ]);
 
-app.config(function($httpProvider, $resourceProvider) {
+app.config(function($httpProvider, $resourceProvider, laddaProvider) {
     $httpProvider.defaults.headers.common['Authorization'] = 'Token 7a37c6d96f31d21ce50d64d37f16cd5cdb9c160c';
     $resourceProvider.defaults.stripTrailingSlashes = false;
     laddaProvider.setOption({
@@ -15,11 +15,20 @@ app.config(function($httpProvider, $resourceProvider) {
 });
 
 app.factory('Contact', function($resource) {
-    return $resource('http://codecraftpro.com/api/samples/v1/contact/:id/');
+    return $resource('http://codecraftpro.com/api/samples/v1/contact/:id/', {id:'@id'}, 
+    {
+        update: {
+            method: 'PUT'
+        }
+    });
 });
 
 app.controller('PersonDetailController', function ($scope, ContactService) {
     $scope.contacts = ContactService;
+
+    $scope.save = function () {
+        $scope.contacts.updateContact($scope.contacts.selectedPerson);
+    }
 });
 
 app.controller('PersonListController', function ($scope, ContactService) {
@@ -54,6 +63,7 @@ app.service('ContactService', function (Contact) {
         'page': 1,
         'hasMore': true,
         'isLoading': false,
+        'isSaving': false,
         'selectedPerson': null,
         'persons': [],
         'doSearch': function (search) {
@@ -98,6 +108,12 @@ app.service('ContactService', function (Contact) {
                 self.page += 1;
                 self.loadContacts();
             }
+        },
+        'updateContact': function (person) {
+            self.isSaving = true
+            person.$update().then(function() {
+                self.isSaving = false;
+            });
         }
     };
 
