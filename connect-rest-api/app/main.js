@@ -69,6 +69,7 @@ app.factory('Contact', function($resource) {
 
 app.directive('ccSpinner', function (){
     return  {
+        restrict: 'E',
         templateUrl: 'templates/spinner.html'
     }
 });
