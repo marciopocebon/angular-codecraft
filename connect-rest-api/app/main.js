@@ -6,8 +6,19 @@ var app = angular.module('codecraft', [
     'angular-ladda',
     'mgcrea.ngStrap',
     'toaster',
-    'ngAnimate'
+    'ngAnimate',
+    'ui.router'
 ]);
+
+app.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('list', {
+            url: '/',
+            templateUrl: 'templates/list.html'
+        })
+
+    $urlRouterProvider.otherwise('/');
+});
 
 app.config(function($httpProvider, $resourceProvider, laddaProvider, $datepickerProvider) {
     $httpProvider.defaults.headers.common['Authorization'] = 'Token 7a37c6d96f31d21ce50d64d37f16cd5cdb9c160c';
