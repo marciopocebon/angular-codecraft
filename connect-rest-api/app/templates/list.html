@@ -1,49 +1,22 @@
 <div class="col-md-12" >
-    <form class="form-inline well well-sm">
-        <span class="fa fa-search"></span>
-
-        <div class="form-group">
-            <input type="text"
-                   class="form-control"
-                   id="name"
-                   ng-model="search"
-                   placeholder="Search name..."
-                    />
-        </div>
-
-        <span class="fa fa-sort" ></span>
-
-        <div class="form-group">
-            <select class="form-control"
-                    ng-model="order">
-                <option value="name">Name (ASC)</option>
-                <option value="-name">Name (DEC)</option>
-                <option value="email">Email (ASC)</option>
-                <option value="-email">Email (DEC)</option>
-            </select>
-        </div>
-
-        <button class="btn btn-primary pull-right" ng-click="showCreateModal()">Create</button>
-    </form>
-
     <table class="table table-bordered" infinite-scroll="loadMore()" infinite-scroll-distance="1">
 
         <tr>
             <th class="col-1">#</th >
             <th class="col-2">
                 <div class="sortables" >
-                    <span ng-click="order = 'name'"
+                    <span ng-click="contacts.ordering='name'"
                           class="fa fa-sort-up"></span>
-                    <span ng-click="order = '-name'"
+                    <span ng-click="contacts.ordering='-name'"
                           class="fa fa-sort-desc"></span>
                 </div>
                 Name
             </th>
             <th class="col-3">
                 <div class="sortables">
-                    <span ng-click="order = 'email'"
+                    <span ng-click="contacts.ordering='email'"
                           class="fa fa-sort-up"></span>
-                    <span ng-click="order = '-email'"
+                    <span ng-click="contacts.ordering='-email'"
                           class="fa fa-sort-desc"></span>
                 </div>
                 Email
