@@ -14,7 +14,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('list', {
             url: '/',
-            templateUrl: 'templates/list.html'
+            templateUrl: 'templates/list.html',
+            controller: 'PersonListController'
+        })
+        .state('edit', {
+            url: '/edit/:email',
+            templateUrl: 'templates/edit.html',
+            controller: 'PersonDetailController'
         })
 
     $urlRouterProvider.otherwise('/');
@@ -49,7 +55,7 @@ app.filter("defaultImage", function (){
     }
 });
 
-app.controller('PersonDetailController', function ($scope, ContactService) {
+app.controller('PersonDetailController', function ($scope, $stateParams, ContactService) {
     $scope.contacts = ContactService;
 
     $scope.save = function () {
