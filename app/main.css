@@ -85,3 +85,9 @@ vertical-align: middle;
 .sortables span:hover {
     color: #002a80; 
 }
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-top: 140px;
+    }
+}
