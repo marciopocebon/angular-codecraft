@@ -7,7 +7,7 @@
 
         <cc-card 
             user="person" 
-            ng-repeat="person in contacts.persons" 
+            ng-repeat="person in contacts.persons track by $index" 
             delete-user="parentDeleteUser">
         </cc-card>
         
