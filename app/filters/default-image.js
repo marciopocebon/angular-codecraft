@@ -1,10 +1,14 @@
-angular
-    .module('codecraft')
-    .filter("defaultImage", function (){
-        return function(input, param) {
-            if(!input) {
-                return param;
+;(function() {
+    'use strict';
+
+    angular
+        .module('codecraft')
+        .filter("defaultImage", function (){
+            return function(input, param) {
+                if(!input) {
+                    return param;
+                }
+                return input;
             }
-            return input;
-        }
-    });
+        });
+}());
